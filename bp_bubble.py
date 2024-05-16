@@ -6,13 +6,17 @@ class Bubble(pygame.sprite.Sprite):
     
     
     
-    def __init__(self, screen, game_settings):
+    def __init__(self, screen, game_settings, isBubbleEvil):
         super(Bubble, self).__init__()
         
         self.screen = screen
         self.screen_rect = screen.get_rect() 
         
-        self.isevil = False # does the bubble damage the player?
+        self.isevil = isBubbleEvil # does the bubble damage the player?
+        if self.isevil == True:
+            self.color = (255, 0, 0)
+        else:
+            self.color = (255, 255, 255)
         
         self.bubble_radius = random.randint(game_settings.bubble_min_r, game_settings.bubble_max_r)
         
@@ -24,7 +28,7 @@ class Bubble(pygame.sprite.Sprite):
         
         self.rect = pygame.draw.circle(
             self.bubble,
-            (255, 255, 255),
+            self.color,
             (self.bubble_radius, self.bubble_radius),
             self.bubble_radius,
             2)
