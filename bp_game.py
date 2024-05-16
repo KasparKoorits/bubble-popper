@@ -3,6 +3,7 @@ from bp_settings import Settings
 from bp_button import Button
 from bp_player import Player
 from bp_bubble import Bubble
+from bp_evilbubble import EvilBubble
 from bp_scoreboard import Scoreboard
 from bp_game_stats import GameStats
 import bp_game_functions as gf
@@ -43,3 +44,4 @@ def run_game():
         gf.update_screen(gm_settings, screen, player, bubbles, clock, stats, play_button, sb)
                     
 run_game()
+
