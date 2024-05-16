@@ -10,8 +10,9 @@ class Bubble(pygame.sprite.Sprite):
         super(Bubble, self).__init__()
         
         self.screen = screen
-        self.screen_rect = screen.get_rect()
+        self.screen_rect = screen.get_rect() 
         
+        self.isevil = False # does the bubble damage the player?
         
         self.bubble_radius = random.randint(game_settings.bubble_min_r, game_settings.bubble_max_r)
         
