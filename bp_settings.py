@@ -12,4 +12,7 @@ class Settings:
         self.bubble_min_r = 10
         self.bubble_max_r = 50
         
+        self.enemy_min_r = 10
+        self.enemy_max_r = 50
+        
         self.bonus_score = 1000

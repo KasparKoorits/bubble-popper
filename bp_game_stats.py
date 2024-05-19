@@ -10,4 +10,5 @@ class GameStats():
     def reset_stats(self):
         self.score = 0
         self.level = 1
+        self.health = 3
         self.bonus = 0

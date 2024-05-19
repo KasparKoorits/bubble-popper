@@ -1,5 +1,6 @@
 import sys
 import pygame
+import random
 from bp_bubble import Bubble
 
 #add additional user event
@@ -41,20 +42,30 @@ def check_play_button(stats, play_button, mouse_x, mouse_y):
         stats.game_active = True
 
 def create_bubble(game_settings, screen, bubbles):
-    new_bubble = Bubble(screen, game_settings)
+    if random.randint(1,10) == 1: # 10% chance to spawn an evil bubble
+        new_bubble = Bubble(screen, game_settings, True)
+    else:
+        new_bubble = Bubble(screen, game_settings, False)
     bubbles.add(new_bubble)
 
 def update_bubbles(player, bubbles, stats, sb, game_settings):
     hitted_bubble = pygame.sprite.spritecollideany(player, bubbles)
     if hitted_bubble != None:
-        stats.score += hitted_bubble.bubble_radius
-        sb.prepare_score()
-        if (int(stats.score / game_settings.bonus_score)) > stats.bonus:
-            stats.level += 1
-            sb.prepare_level()
-            stats.bonus += 1
-        hitted_bubble.kill()
+        if hitted_bubble.isevil != True:
+            stats.score += hitted_bubble.bubble_radius
+            sb.prepare_score()
+            if (int(stats.score / game_settings.bonus_score)) > stats.bonus:
+                stats.level += 1
+                sb.prepare_level()
+                stats.bonus += 1
+            hitted_bubble.kill()
+        else:
+            stats.health -= 1
+            hitted_bubble.kill()
             
+def stop_game(stats):
+    stats.game_active = False #stop the game once the player is dead
+    stats.reset_stats()
 
 def update_screen(game_settings, screen, player, bubbles, clock, stats, play_button, sb):
     """Update image on screen and draw new screen"""
@@ -63,6 +74,10 @@ def update_screen(game_settings, screen, player, bubbles, clock, stats, play_but
     
     #add player to screen
     player.blit_me()
+    
+    #check if player is dead
+    if stats.health < 1:
+        stop_game(stats)
     
     #add bubbles to screen
     for bubble in bubbles:
@@ -78,5 +93,3 @@ def update_screen(game_settings, screen, player, bubbles, clock, stats, play_but
     
     #display the last screen
     pygame.display.flip()
-    
- 

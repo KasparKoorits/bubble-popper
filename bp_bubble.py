@@ -6,12 +6,17 @@ class Bubble(pygame.sprite.Sprite):
     
     
     
-    def __init__(self, screen, game_settings):
+    def __init__(self, screen, game_settings, isBubbleEvil):
         super(Bubble, self).__init__()
         
         self.screen = screen
-        self.screen_rect = screen.get_rect()
+        self.screen_rect = screen.get_rect() 
         
+        self.isevil = isBubbleEvil # does the bubble damage the player?
+        if self.isevil == True:
+            self.color = (255, 0, 0)
+        else:
+            self.color = (255, 255, 255)
         
         self.bubble_radius = random.randint(game_settings.bubble_min_r, game_settings.bubble_max_r)
         
@@ -23,7 +28,7 @@ class Bubble(pygame.sprite.Sprite):
         
         self.rect = pygame.draw.circle(
             self.bubble,
-            (255, 255, 255),
+            self.color,
             (self.bubble_radius, self.bubble_radius),
             self.bubble_radius,
             2)
@@ -35,11 +40,27 @@ class Bubble(pygame.sprite.Sprite):
                 )
             )
         self.speed = random.randint(1, 5)
+        
+        self.evilspeed = random.randint(8, 12)
     
     def update(self):
-        self.rect.move_ip(-5, 0)
+        if self.isevil:
+            self.rect.move_ip(-self.evilspeed, 0)
+        else:
+            self.rect.move_ip(-self.speed, 0)
         if self.rect.right < 0:
             self.kill()
         
     def blit_me(self):
         self.screen.blit(self.bubble, self.rect)
+        
+def increase_evil_bubble_speed(bubbles):
+        for bubble in bubbles:
+            if bubble.isevil:
+                bubble.evilspeed *= 1.02
+                
+def check_level_up(score, level, bubbles):
+    if score >= level * 1000:  # Example condition: level up every 10 points
+        level += 1
+        increase_evil_bubble_speed(bubbles)
+    return level 
