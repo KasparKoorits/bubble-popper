@@ -1,5 +1,6 @@
 import random
 import pygame
+from bp_player import Player
 
 class Bubble(pygame.sprite.Sprite):
     """Class for bubble object"""
@@ -58,9 +59,3 @@ def increase_evil_bubble_speed(bubbles):
         for bubble in bubbles:
             if bubble.isevil:
                 bubble.evilspeed *= 1.02
-                
-def check_level_up(score, level, bubbles):
-    if score >= level * 1000:  # Example condition: level up every 10 points
-        level += 1
-        increase_evil_bubble_speed(bubbles)
-    return level 

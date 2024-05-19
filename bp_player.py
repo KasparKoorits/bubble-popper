@@ -19,6 +19,8 @@ class Player(pygame.sprite.Sprite):
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        self.godded = False
+        self.god_start_time = 0
     
     def update(self):
         if self.moving_right:
@@ -38,6 +40,14 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
         if self.moving_down and self.rect.bottom >= self.screen_rect.bottom:
             self.rect.bottom = self.screen_rect.bottom
+    
+    def god_player(self):
+        self.godded = True
+        self.god_start_time = pygame.time.get_ticks()
+        
+    def check_god_mode(self):
+        if self.godded and pygame.time.get_ticks() - self.god_start_time >= 3000:
+            self.godded = False
         
     def blit_me(self):
         self.screen.blit(self.player, self.rect)
