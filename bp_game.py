@@ -36,5 +36,5 @@ def run_game():
         else:
             bubbles.empty()
         gf.update_screen(gm_settings, screen, player, bubbles, clock, stats, play_button, sb)
-
+        
 run_game()
