@@ -1,5 +1,6 @@
 import random
 import pygame
+from bp_player import Player
 
 class Bubble(pygame.sprite.Sprite):
     """Class for bubble object"""
@@ -40,11 +41,21 @@ class Bubble(pygame.sprite.Sprite):
                 )
             )
         self.speed = random.randint(1, 5)
+        
+        self.evilspeed = random.randint(8, 12)
     
     def update(self):
-        self.rect.move_ip(-5, 0)
+        if self.isevil:
+            self.rect.move_ip(-self.evilspeed, 0)
+        else:
+            self.rect.move_ip(-self.speed, 0)
         if self.rect.right < 0:
             self.kill()
         
     def blit_me(self):
         self.screen.blit(self.bubble, self.rect)
+        
+def increase_evil_bubble_speed(bubbles):
+        for bubble in bubbles:
+            if bubble.isevil:
+                bubble.evilspeed *= 1.02

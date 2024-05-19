@@ -60,7 +60,9 @@ def update_bubbles(player, bubbles, stats, sb, game_settings):
                 stats.bonus += 1
             hitted_bubble.kill()
         else:
-            stats.health -= 1
+            if not player.godded:
+                player.god_player()
+                stats.health -= 1
             hitted_bubble.kill()
             
 def stop_game(stats):
@@ -71,6 +73,13 @@ def update_screen(game_settings, screen, player, bubbles, clock, stats, play_but
     """Update image on screen and draw new screen"""
     #background
     screen.fill(game_settings.bg_color)
+    
+    # Handles god mode and the flashing effect
+    player.check_god_mode()
+    if player.godded and int(pygame.time.get_ticks() / 100) % 2 == 0:
+        player.player.set_alpha(128)
+    else:
+        player.player.set_alpha(255)
     
     #add player to screen
     player.blit_me()
@@ -93,5 +102,3 @@ def update_screen(game_settings, screen, player, bubbles, clock, stats, play_but
     
     #display the last screen
     pygame.display.flip()
-    
- 
