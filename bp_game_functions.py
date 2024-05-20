@@ -1,6 +1,7 @@
 import sys
 import pygame
 import random
+import time
 from bp_bubble import Bubble
 
 #add additional user event
@@ -8,7 +9,7 @@ pygame.init()
 ADDBUBBLE = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDBUBBLE, 250)
 
-def check_events(game_settings, screen, player, bubbles, stats, play_button):
+def check_events(game_settings, screen, player, bubbles, stats, play_button, sb):
     """Check keyboard events"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -35,11 +36,14 @@ def check_events(game_settings, screen, player, bubbles, stats, play_button):
             create_bubble(game_settings, screen, bubbles)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(stats, play_button, mouse_x, mouse_y)
+            check_play_button(stats, play_button, mouse_x, mouse_y, sb)
 
-def check_play_button(stats, play_button, mouse_x, mouse_y):
+def check_play_button(stats, play_button, mouse_x, mouse_y, sb):
     if play_button.rect.collidepoint(mouse_x, mouse_y):
         stats.game_active = True
+        sb.prepare_score()
+        sb.prepare_level()
+        sb.prepare_lives()
 
 def create_bubble(game_settings, screen, bubbles):
     if random.randint(1,10) == 1: # 10% chance to spawn an evil bubble
@@ -63,7 +67,8 @@ def update_bubbles(player, bubbles, stats, sb, game_settings):
             if not player.godded:
                 player.god_player()
                 stats.health -= 1
-            hitted_bubble.kill()
+                sb.prepare_lives()
+                hitted_bubble.kill()
             
 def stop_game(stats):
     stats.game_active = False #stop the game once the player is dead
@@ -87,6 +92,7 @@ def update_screen(game_settings, screen, player, bubbles, clock, stats, play_but
     #check if player is dead
     if stats.health < 1:
         stop_game(stats)
+        play_button.prepare_msg("Retry")
     
     #add bubbles to screen
     for bubble in bubbles:
@@ -102,3 +108,4 @@ def update_screen(game_settings, screen, player, bubbles, clock, stats, play_but
     
     #display the last screen
     pygame.display.flip()
+
