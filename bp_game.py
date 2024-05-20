@@ -28,7 +28,7 @@ def run_game():
 
     # Run until user asks to quit
     while True:
-        gf.check_events(gm_settings, screen, player, bubbles, stats, play_button)
+        gf.check_events(gm_settings, screen, player, bubbles, stats, play_button, sb)
         if stats.game_active:
             player.update()
             gf.update_bubbles(player, bubbles, stats, sb, gm_settings)
