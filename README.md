@@ -1,5 +1,5 @@
 # 🧼 Bubble Bluster PyGame
-This project is about a game called Bubble Bluster, where you pop bubbles and gain score, the bubbles going faster each thousand points you earn.
+This project is about a game called Bubble Bluster, where you pop bubbles and gain score, the bubbles going faster each thousand points you earn, make sure to dodge the red evil bubbles!
 # 💻 Requirements
 You need to install PyGame to play this game.
 ```py
@@ -17,7 +17,7 @@ git clone https://github.com/KasparKoorits/bubble-popper
 Run the game.py file and the game will start.
 # ▶ How to play
 Use arrow keys to move around, you can move around in any direction and make contact with bubbles to pop them.
-# 🐱‍👤 Developers
+# 💻 Developers
 Kaspar Koorits and Erki Kuuse
 # ❓ Additional sources
 None for now.
